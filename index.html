@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="pexels-johannes-plenio-1118873.jpgs" type="image/x-icon">
+
+    <title>Weather App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #e57c7c, #7c96e4, #1e2d39, #548955, #d1f79d, #b4d1e7);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s linear infinite alternate;
+        }
+        
+        /* @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        } */
+
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 420px;
+            height: 100vh;
+          
+         
+            flex-direction: column;
+             background-image: url(37Es.gif);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: 50px;
+            
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 1000px;
+            height: 100px;
+            margin: 10px;
+            background-color: ;
+        }
+
+        #search {
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            box-shadow: 0px 0px 5px grey;
+            margin-left: 35px;
+            color: black;
+        }
+        button{
+            background-color: blue;
+            width: 65px;
+            height: 30px;
+            border-radius: 5px;
+        }
+
+        #weather-icon {
+            max-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        
+        <div class="row" style="text-align: center;">
+            <form action="submit">
+                <input type="search" id="search" placeholder="Search City">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="row" id="weather">
+            <div>
+                <img id="weather-icon" src="72gi.gif" alt="Weather Icon">
+            </div>
+            <div>
+                <h1 id="temperature">32°C</h1>
+                <p id="description">Clear sky</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const form = document.querySelector("form");
+        const search = document.querySelector("#search");
+        const weatherIcon = document.querySelector("#weather-icon");
+        const temperature = document.querySelector("#temperature");
+        const description = document.querySelector("#description");
+
+        const apiKey = '7442c1f0984e3911ac16a88d92fe4da9';
+        const apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+           
+            const city = search.value;
+
+            
+            const fullApiUrl = `${apiUrl}?q=${city}&appid=${apiKey}&units=metric`;
+
+   
+            fetch(fullApiUrl)
+    .then(response => response.json())
+    .then(data => {
+     
+        const iconUrl = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+        weatherIcon.src = iconUrl;
+        temperature.textContent = `${data.main.temp}°C`;
+        description.textContent = data.weather[0].description;
+    })
+    .catch(error => {
+        console.error("Error fetching weather data:", error);
+    });
+        });
+    </script>
+</body>
+</html>
